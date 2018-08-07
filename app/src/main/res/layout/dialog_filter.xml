@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@android:color/transparent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="30dp"
+            android:layout_marginEnd="30dp"
+            android:layout_gravity="center"
+            android:padding="10dp"
+            android:orientation="vertical"
+            android:background="@drawable/bg_filter">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="30dp"
+                android:gravity="center">
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="2"
+                    android:text="Line : "
+                    android:textAlignment="viewEnd"/>
+                <Spinner
+                    android:id="@+id/spLine"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="6"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="30dp"
+                android:gravity="center">
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="2"
+                    android:text="Station : "
+                    android:textAlignment="viewEnd"/>
+                <Spinner
+                    android:id="@+id/spStation"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="6"/>
+            </LinearLayout>
+
+            <com.app.findmycafe.CustomView.RatingSeekBarView
+                android:id="@+id/ratingWifi"
+                android:layout_width="match_parent"
+                android:layout_height="30dp"
+                app:ratingTitle="Wifi"/>
+
+            <com.app.findmycafe.CustomView.RatingSeekBarView
+                android:id="@+id/ratingSeat"
+                android:layout_width="match_parent"
+                android:layout_height="30dp"
+                app:ratingTitle="Seat"/>
+
+            <com.app.findmycafe.CustomView.RatingSeekBarView
+                android:id="@+id/ratingCheap"
+                android:layout_width="match_parent"
+                android:layout_height="30dp"
+                app:ratingTitle="Cheap"/>
+
+            <com.app.findmycafe.CustomView.RatingSeekBarView
+                android:id="@+id/ratingQuite"
+                android:layout_width="match_parent"
+                android:layout_height="30dp"
+                app:ratingTitle="Quite"/>
+            <com.app.findmycafe.CustomView.RatingSeekBarView
+                android:id="@+id/ratingTasty"
+                android:layout_width="match_parent"
+                android:layout_height="30dp"
+                app:ratingTitle="Tasty"/>
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_marginStart="10dp"
+                android:layout_marginEnd="10dp"
+                android:gravity="center"
+                android:layout_marginTop="20dp">
+                <Button
+                    android:id="@+id/btnCancel"
+                    android:layout_width="100dp"
+                    android:layout_height="wrap_content"
+                    android:text="cancel"
+                    android:background="@drawable/btn_cancel"/>
+                <Button
+                    android:id="@+id/btnConfirm"
+                    android:layout_width="100dp"
+                    android:layout_height="wrap_content"
+                    android:text="confirm"
+                    android:layout_marginStart="20dp"
+                    android:background="@drawable/btn_confirm"/>
+            </LinearLayout>
+
+        </LinearLayout>
+    </LinearLayout>
+</layout>

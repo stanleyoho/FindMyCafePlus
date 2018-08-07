@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">FindMyCafePlus</string>
+    <string name="title_activity_intro">Intro</string>
+    <string name="title_activity_main">Main</string>
+    <string name="title_activity_maps">Map</string>
+
+    <string name="navigation_drawer_open">open</string>
+    <string name="navigation_drawer_close">close</string>
+</resources>
