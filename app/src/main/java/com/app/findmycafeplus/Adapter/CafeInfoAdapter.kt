@@ -11,5 +11,8 @@ class CafeInfoAdapter : GoogleMap.InfoWindowAdapter{
 
     override fun getInfoWindow(p0: Marker?): View {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        //1234
+
+
     }
 }
