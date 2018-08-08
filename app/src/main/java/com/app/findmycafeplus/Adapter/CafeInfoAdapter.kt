@@ -3,10 +3,7 @@ package com.app.findmycafeplus.Adapter
 import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
-import android.widget.LinearLayout
-import com.app.findmycafeplus.Model.CafeInformation
 import com.app.findmycafeplus.Model.RMCafeInformation
-import com.app.findmycafeplus.Model.test
 import com.app.findmycafeplus.R
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.model.Marker
