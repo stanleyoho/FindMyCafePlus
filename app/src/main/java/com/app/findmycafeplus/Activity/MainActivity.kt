@@ -5,6 +5,7 @@ import android.support.design.widget.NavigationView
 import android.support.v4.view.GravityCompat
 import android.view.View
 import android.widget.Toast
+import com.app.findmycafeplus.CustomView.FilterDialog
 import com.app.findmycafeplus.Fragment.MapFragment
 import com.app.findmycafeplus.R
 import kotlinx.android.synthetic.main.activity_main.*
@@ -47,7 +48,8 @@ class MainActivity : BasicActivity() {
                 setDrawerVisible()
             }
             R.id.btnDonate ->{
-                Toast.makeText(this,"Donatesafasfasdfsadfasdfasfadsfa",Toast.LENGTH_SHORT).show()
+//                Toast.makeText(this,"Donate",Toast.LENGTH_SHORT).show()
+                FilterDialog(this).show()
             }
         }
     }

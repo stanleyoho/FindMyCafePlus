@@ -31,10 +31,10 @@ class IntroActivity : BasicActivity() {
         LogUtils.e("size", DataManager.getMrtList().size.toString())
 
         //正式
-//        checkPermission()
+        checkPermission()
 
         //test
-        goToMain()
+//        goToMain()
 
     }
 

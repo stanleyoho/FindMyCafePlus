@@ -4,6 +4,10 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import com.app.findmycafeplus.Adapter.CafeInfoAdapter
+import com.app.findmycafeplus.Model.CafeInformation
+import com.app.findmycafeplus.Model.RMCafeInformation
+import com.app.findmycafeplus.Model.test
 import com.app.findmycafeplus.R
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
@@ -12,14 +16,18 @@ import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MapStyleOptions
 import com.google.android.gms.maps.model.MarkerOptions
+import io.realm.RealmResults
 
 class MapFragment : BasicFragament() , OnMapReadyCallback{
 
 
     private lateinit var mMap: GoogleMap
+    private lateinit var cafeList : RealmResults<RMCafeInformation>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        cafeList = RMCafeInformation().getAll()
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -47,8 +55,19 @@ class MapFragment : BasicFragament() , OnMapReadyCallback{
         mMap.uiSettings.isMapToolbarEnabled = false
 
         // Add a marker in Sydney and move the camera
-        val sydney = LatLng(-34.0, 151.0)
-        mMap.addMarker(MarkerOptions().position(sydney).title("Marker in Sydney"))
-        mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney))
+        for(index in 0 until cafeList.size){
+            val cafeInfo: RMCafeInformation? = cafeList[index]
+            val cafePosition = LatLng(cafeInfo!!.latitude, cafeInfo.longitude)
+            val marker = mMap.addMarker(MarkerOptions().position(cafePosition).title(cafeInfo.name))
+            marker.tag = cafeInfo
+        }
+//        val sydney = LatLng(-34.0, 151.0)
+//        val marker = mMap.addMarker(MarkerOptions().position(sydney).title("Marker in Sydney"))
+
+//        marker.tag = test(3f)
+
+        mMap.setInfoWindowAdapter(CafeInfoAdapter(context))
+
+//        mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney))
     }
 }

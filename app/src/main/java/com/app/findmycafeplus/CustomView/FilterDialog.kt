@@ -13,6 +13,8 @@ import kotlinx.android.synthetic.main.dialog_filter.*
 
 class FilterDialog : Dialog{
 
+    var count : Float = 0.0f
+
     constructor(context: Context?) : this(context,0)
     constructor(context: Context?, themeResId: Int) : super(context, R.style.fullDialog){
 

@@ -23,7 +23,8 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity android:name=".Activity.IntroActivity"
-            android:theme="@style/IntroTheme">
+            android:theme="@style/IntroTheme"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -43,12 +44,9 @@
             android:value="@string/google_maps_key" />
 
         <activity
-            android:name=".Activity.MapsActivity"
-            android:label="@string/title_activity_maps"/>
-
-        <activity
             android:name=".Activity.MainActivity"
-            android:label="@string/title_activity_main"/>
+            android:label="@string/title_activity_main"
+            android:screenOrientation="portrait"/>
 
     </application>
 

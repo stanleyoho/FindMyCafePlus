@@ -32,7 +32,7 @@
     </declare-styleable>
 
     <declare-styleable name="ratingStarView">
-        <attr name="value" format="integer"/>
+        <attr name="starValue" format="integer"/>
     </declare-styleable>
 
 </resources>

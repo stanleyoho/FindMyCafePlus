@@ -1,6 +1,7 @@
 package com.app.findmycafeplus.Utils
 
 import android.app.Dialog
+import android.content.Context
 import android.util.DisplayMetrics
 import android.view.WindowManager
 
@@ -47,5 +48,15 @@ object Utils {
         }catch (e : Exception){
             e.printStackTrace()
         }
+    }
+
+    fun px2Dp(context : Context , px : Float) : Int{
+        val density = context.resources.displayMetrics.density
+        return (px / density + 0.5f).toInt()
+    }
+
+    fun dp2Px(context : Context , dp : Float) : Int{
+        val density = context.resources.displayMetrics.density
+        return (dp * density + 0.5f).toInt()
     }
 }
