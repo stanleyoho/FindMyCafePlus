@@ -6,27 +6,43 @@ import android.view.View
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import com.app.findmycafeplus.Constants.Constants
+import com.app.findmycafeplus.Interface.FilterDialogCallBackInterface
 import com.app.findmycafeplus.Manager.DataManager
+import com.app.findmycafeplus.Manager.RealManager
+import com.app.findmycafeplus.Model.RMCafeInformation
+import com.app.findmycafeplus.Preference.PublicPreference
 import com.app.findmycafeplus.R
 import com.app.findmycafeplus.Utils.Utils
+import io.realm.RealmQuery
+import io.realm.RealmResults
 import kotlinx.android.synthetic.main.dialog_filter.*
 
 class FilterDialog : Dialog{
 
-    var count : Float = 0.0f
+    private var callBack : FilterDialogCallBackInterface? = null
+    private var preference : PublicPreference? = null
 
-    constructor(context: Context?) : this(context,0)
-    constructor(context: Context?, themeResId: Int) : super(context, R.style.fullDialog){
+
+    constructor(context: Context) : this(context,0)
+
+    constructor(context: Context , callBack : FilterDialogCallBackInterface):this(context){
+        this.callBack = callBack
+    }
+
+    constructor(context: Context, themeResId: Int) : super(context, R.style.fullDialog){
 
         setContentView(R.layout.dialog_filter)
+
+        preference = PublicPreference(context)
 
         initView()
 
         initEvent()
-        setCancelable(false)
 
+        setCancelable(false)
         Utils.setFullScreenDialog(this)
 
+        initDialogItem()
     }
 
     private fun initView(){
@@ -44,7 +60,17 @@ class FilterDialog : Dialog{
         val viewId = it.id
         when(viewId){
             R.id.btnConfirm -> {
-                //todo
+                if(callBack != null || preference != null){
+                    preference?.setWifi(ratingWifi.getRatingValue())
+                    preference?.setSeat(ratingSeat.getRatingValue())
+                    preference?.setQuite(ratingQuite.getRatingValue())
+                    preference?.setCheap(ratingCheap.getRatingValue())
+                    preference?.setTasty(ratingTasty.getRatingValue())
+
+                    callBack?.filterResult(getFilterResult())
+
+                    dismiss()
+                }
             }
 
             R.id.btnCancel -> dismiss()
@@ -78,6 +104,28 @@ class FilterDialog : Dialog{
                 }
             }
         }
+    }
 
+    private fun initDialogItem(){
+
+        spLine.setSelection(preference!!.getLine())
+
+        spStation.post(Runnable { spStation.setSelection(preference!!.getStation()) })
+
+        ratingWifi.setRatingValue(preference!!.getWifi())
+        ratingCheap.setRatingValue(preference!!.getCheap())
+        ratingSeat.setRatingValue(preference!!.getSeat())
+        ratingQuite.setRatingValue(preference!!.getQuite())
+        ratingTasty.setRatingValue(preference!!.getTasty())
+    }
+
+    private fun getFilterResult() : RealmResults<RMCafeInformation>{
+        return RealManager.getRealm().where(RMCafeInformation::class.java)
+                .greaterThan("wifi",preference!!.getWifi())
+                .greaterThan("seat",preference!!.getSeat())
+                .greaterThan("quiet",preference!!.getQuite())
+                .greaterThan("cheap",preference!!.getCheap())
+                .greaterThan("tasty",preference!!.getTasty())
+                .findAll()
     }
 }

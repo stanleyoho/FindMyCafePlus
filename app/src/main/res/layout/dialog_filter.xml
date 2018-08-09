@@ -106,6 +106,5 @@
                 android:background="@drawable/btn_confirm"
                 android:text="confirm" />
         </LinearLayout>
-
     </LinearLayout>
 </LinearLayout>

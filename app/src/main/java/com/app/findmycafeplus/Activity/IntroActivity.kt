@@ -45,6 +45,7 @@ class IntroActivity : BasicActivity() {
                 .setReadStoragePermissionCheck()
                 .setWriteStoragePermissionCheck()
                 .setLocationFindPermissionCheck()
+                .setLocationCoarsePermissionCheck()
                 .build()
 
         if (permissions.getPersmissions().isNotEmpty()) {

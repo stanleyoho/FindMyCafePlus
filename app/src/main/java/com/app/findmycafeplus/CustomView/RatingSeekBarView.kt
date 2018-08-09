@@ -47,4 +47,8 @@ class RatingSeekBarView : LinearLayout{
     fun getRatingValue():Float{
         return resultValue
     }
+
+    fun setRatingValue(value : Float){
+        sbRating.progress = (value*2).toInt()
+    }
 }

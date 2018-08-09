@@ -17,11 +17,11 @@ open class RMCafeInformation : RealmObject() {
     //about coffee shop variable
     var name: String? = ""
     var city: String? = ""
-    var wifi: Double = 0.0
-    var seat: Double = 0.0
-    var quiet: Double = 0.0
-    var tasty: Double = 0.0
-    var cheap: Double = 0.0
+    var wifi: Float = 0f
+    var seat: Float = 0f
+    var quiet: Float = 0f
+    var tasty: Float = 0f
+    var cheap: Float = 0f
     var music: Double = 0.0
     var url: String? = ""
     var address: String? = ""

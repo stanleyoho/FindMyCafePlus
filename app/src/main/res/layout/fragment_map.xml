@@ -23,6 +23,15 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
 
+        <android.support.design.widget.FloatingActionButton
+            android:id="@+id/btnSearch"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:src="@android:drawable/ic_menu_search"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentEnd="true"
+            android:layout_marginEnd="5dp"
+            android:layout_marginBottom="35dp"/>
     </RelativeLayout>
 
     <LinearLayout

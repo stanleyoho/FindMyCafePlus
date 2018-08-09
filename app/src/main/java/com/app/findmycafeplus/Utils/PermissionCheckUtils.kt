@@ -48,6 +48,13 @@ class PermissionCheckUtils(builder: Builder){
                 return this
             }
 
+            fun setLocationCoarsePermissionCheck() : Builder{
+                if(ContextCompat.checkSelfPermission(mContext,Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_DENIED){
+                    permissionList.add(Manifest.permission.ACCESS_COARSE_LOCATION)
+                }
+                return this
+            }
+
             fun build() : PermissionCheckUtils{
                 return PermissionCheckUtils(this)
             }

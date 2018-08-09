@@ -22,6 +22,7 @@ class CafeInfoAdapter(context: Context?) : GoogleMap.InfoWindowAdapter{
 
         if (p0?.tag is RMCafeInformation) {
             val marker = p0.tag as RMCafeInformation
+            view.textTitle.text = marker.name
             view.ratingStarWifi.drawStars(marker.wifi.toFloat())
             view.ratingStarQuite.drawStars(marker.quiet.toFloat())
             view.ratingStarSeat.drawStars(marker.seat.toFloat())
