@@ -4,6 +4,8 @@ apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
 
+apply plugin: 'com.google.gms.google-services'
+
 android {
     compileSdkVersion 27
     defaultConfig {
@@ -50,6 +52,19 @@ dependencies {
 
     //slide layout
     implementation 'com.sothree.slidinguppanel:library:3.4.0'
+
+    //fireBase
+    implementation 'com.google.firebase:firebase-core:16.0.0'
+
+    implementation 'com.google.firebase:firebase-auth:16.0.2'
+
+    // Required only if Facebook login support is required
+    // Find the latest Facebook SDK releases here: https://goo.gl/Ce5L94
+    implementation 'com.facebook.android:facebook-login:[4,5)'
+
+    // Required only if Twitter login support is required
+    // Find the latest Twitter SDK releases here: https://goo.gl/E5wZvQ
+//    implementation 'com.twitter.sdk.android:twitter-core:3.x'
 
 }
 apply plugin: 'realm-android'

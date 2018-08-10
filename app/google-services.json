@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "150228236698",
+    "firebase_url": "https://findmycafeplus.firebaseio.com",
+    "project_id": "findmycafeplus",
+    "storage_bucket": "findmycafeplus.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:150228236698:android:6af6f6f3d934ae49",
+        "android_client_info": {
+          "package_name": "com.app.findmycafeplus"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "150228236698-pshh62tkdkq4gmfkh5c8qgiv1beppdbc.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.app.findmycafeplus",
+            "certificate_hash": "6ee6914388ad85e763725c95745bf96e02f38b58"
+          }
+        },
+        {
+          "client_id": "150228236698-jiqc1hi8qs7mgbo13b99ovra6jeb5ops.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDl7bHvS9hsWTvYaWnpmo4STT6w0mZA5f8"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "150228236698-jiqc1hi8qs7mgbo13b99ovra6jeb5ops.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

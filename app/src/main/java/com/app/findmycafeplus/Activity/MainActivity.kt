@@ -1,16 +1,19 @@
 package com.app.findmycafeplus.Activity
 
+import android.app.Activity
+import android.content.Intent
 import android.os.Bundle
 import android.support.design.widget.NavigationView
 import android.support.v4.view.GravityCompat
 import android.view.View
 import android.widget.Toast
-import com.app.findmycafeplus.CustomView.FilterDialog
 import com.app.findmycafeplus.Fragment.MapFragment
 import com.app.findmycafeplus.R
 import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : BasicActivity() {
+
+    val RC_SIGN_IN = 200
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -23,7 +26,7 @@ class MainActivity : BasicActivity() {
     private fun initView(){
 
         val transaction = supportFragmentManager
-        navMain.inflateMenu(R.menu.menu_nav_main_singin)
+        navMain.inflateMenu(R.menu.menu_nav_main_unsing)
         transaction.beginTransaction().add(R.id.fragmentMain,MapFragment(),"").commit()
     }
 
@@ -48,8 +51,7 @@ class MainActivity : BasicActivity() {
                 setDrawerVisible()
             }
             R.id.btnDonate ->{
-//                Toast.makeText(this,"Donate",Toast.LENGTH_SHORT).show()
-                FilterDialog(this).show()
+                Toast.makeText(this,"Donate",Toast.LENGTH_SHORT).show()
             }
         }
     }
@@ -57,7 +59,7 @@ class MainActivity : BasicActivity() {
     private var onNavItemSelectListener = NavigationView.OnNavigationItemSelectedListener { item ->
         val viewId = item.itemId
         when(viewId){
-            R.id.menuMap ->{
+            R.id.menuMapSigned ,R.id.menuMapUnSign ->{
                 Toast.makeText(this,"Map",Toast.LENGTH_SHORT).show()
             }
             R.id.menuMember ->{
@@ -66,7 +68,7 @@ class MainActivity : BasicActivity() {
             R.id.menuLogin ->{
                 Toast.makeText(this,"Login",Toast.LENGTH_SHORT).show()
             }
-            R.id.menuSetting ->{
+            R.id.menuSettingSigned ,R.id.menuSettingUnSign ->{
                 Toast.makeText(this,"Setting",Toast.LENGTH_SHORT).show()
             }
             R.id.menuLogout ->{
@@ -75,5 +77,18 @@ class MainActivity : BasicActivity() {
         }
         setDrawerVisible()
         false
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+
+        if(requestCode == RC_SIGN_IN){
+
+            if(resultCode == Activity.RESULT_OK){
+
+            }else{
+
+            }
+        }
     }
 }

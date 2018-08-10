@@ -30,18 +30,16 @@ import kotlinx.android.synthetic.main.fragment_map.*
 
 class MapFragment : BasicFragament() , OnMapReadyCallback{
 
-
     private lateinit var mMap: GoogleMap
     private lateinit var cafeList : RealmResults<RMCafeInformation>
-    private lateinit var mLocationManager : LocationManager
+    private lateinit var location : Location
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         cafeList = RMCafeInformation().getAll()
 
-        mLocationManager = context?.getSystemService(LOCATION_SERVICE) as LocationManager
-
+        initCurrentLocation()
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -56,51 +54,27 @@ class MapFragment : BasicFragament() , OnMapReadyCallback{
     }
 
     override fun onMapReady(googleMap: GoogleMap) {
-        mMap = googleMap
 
-        //set map style
-        googleMap.setMapStyle(MapStyleOptions.loadRawResourceStyle(context, R.raw.style_json))
-
-        //set map default zoom
-        mMap.setMaxZoomPreference(16f)
-        mMap.setMinZoomPreference(3f)
-        mMap.uiSettings.isMapToolbarEnabled = false
-
-        //check permission and set location click listener
-        if(ContextCompat.checkSelfPermission(context!!,Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED){
-            mMap.isMyLocationEnabled = true
-            mMap.setOnMyLocationClickListener (locationClickListener)
-
-            //get current location
-            var location : Location?  = null
-
-            if (mLocationManager.isProviderEnabled(LocationManager.GPS_PROVIDER) || mLocationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER)) {
-                if (mLocationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
-                    location = mLocationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);  //使用GPS定位座標
-                } else if (mLocationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER)) {
-                    location = mLocationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER); //使用GPS定位座標
-                }
-            }
-            try{
-                mMap.animateCamera(MapUtils.getCameraLatLngZoom(location!!.latitude, location.longitude, 18))
-            }catch (e:Exception){
-                mMap.animateCamera(MapUtils.getCameraLatLngZoom(Constants.LOCATION_TAIPIE_STATION_LAT, Constants.LOCATION_TAIPIE_STATION_LOG, 18))
-            }
-        }
+        initMap(googleMap)
 
         //add mark
         addMarkOnMap(cafeList)
 
-        //set custom info window
-        mMap.setInfoWindowAdapter(CafeInfoAdapter(context))
-
-        //set search listener
-        btnSearch.setOnClickListener (clickListener)
-
+        try {
+            MapUtils.moveCameraTo(mMap,location,Constants.ZOOM_NORMAL)
+        }catch (e : Exception){
+            MapUtils.moveCameraToTaipei(mMap,Constants.ZOOM_NORMAL)
+        }
     }
 
-    private var locationClickListener = GoogleMap.OnMyLocationClickListener { location -> mMap.animateCamera(MapUtils.getCameraLatLngZoom(location.latitude, location.longitude, 18)) }
+    /**
+     * location click listener
+     * */
+    private var locationClickListener = GoogleMap.OnMyLocationClickListener { location -> MapUtils.moveCameraTo(mMap,location.latitude,location.longitude,Constants.ZOOM_NORMAL) }
 
+    /**
+     * button click listener
+     * */
     private var clickListener = View.OnClickListener { v ->
         val viewId = v?.id
         when(viewId){
@@ -110,6 +84,36 @@ class MapFragment : BasicFragament() , OnMapReadyCallback{
         }
     }
 
+    /**
+     * 初始化地圖
+     * */
+    private fun  initMap(googleMap: GoogleMap){
+        mMap = googleMap
+
+        //set map style
+        googleMap.setMapStyle(MapStyleOptions.loadRawResourceStyle(context, R.raw.style_json))
+
+        //set map default zoom
+        mMap.setMaxZoomPreference(Constants.ZOOM_MAX)
+        mMap.setMinZoomPreference(Constants.ZOOM_MIN)
+        mMap.uiSettings.isMapToolbarEnabled = false
+
+        //check permission and set location click listener
+        if(ContextCompat.checkSelfPermission(context!!,Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED){
+            mMap.isMyLocationEnabled = true
+            mMap.setOnMyLocationClickListener (locationClickListener)
+        }
+
+        //set custom info window
+        mMap.setInfoWindowAdapter(CafeInfoAdapter(context))
+
+        //set search listener
+        btnSearch.setOnClickListener (clickListener)
+    }
+
+    /**
+     * filter dialog callBack
+     * */
     private var filterCallBack = object : FilterDialogCallBackInterface{
         override fun filterResult(result: RealmResults<RMCafeInformation>) {
             mMap.clear()
@@ -117,7 +121,11 @@ class MapFragment : BasicFragament() , OnMapReadyCallback{
         }
     }
 
-    private fun addMarkOnMap(cafeList : RealmResults<RMCafeInformation>){
+    /**
+     * 在地圖中加入mark
+     * @param cafeList mark的資料
+     * */
+    private fun addMarkOnMap(cafeList : RealmResults<RMCafeInformation> ){
 
         // Add a marker in Sydney and move the camera
         for(index in 0 until cafeList.size){
@@ -125,6 +133,24 @@ class MapFragment : BasicFragament() , OnMapReadyCallback{
             val cafePosition = LatLng(cafeInfo!!.latitude, cafeInfo.longitude)
             val marker = mMap.addMarker(MarkerOptions().position(cafePosition).title(cafeInfo.name).icon(MarkerUtils.getMapNormalIcon(context!!)))
             marker.tag = cafeInfo
+        }
+    }
+
+    /**
+     * 初始化手機 location
+     * */
+    private fun initCurrentLocation(){
+        val mLocationManager = context?.getSystemService(LOCATION_SERVICE) as LocationManager
+
+        if(ContextCompat.checkSelfPermission(context!!,Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED){
+            //get current location
+            if (mLocationManager.isProviderEnabled(LocationManager.GPS_PROVIDER) || mLocationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER)) {
+                if (mLocationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
+                    location = mLocationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);  //使用GPS定位座標
+                } else if (mLocationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER)) {
+                    location = mLocationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER); //使用GPS定位座標
+                }
+            }
         }
     }
 }

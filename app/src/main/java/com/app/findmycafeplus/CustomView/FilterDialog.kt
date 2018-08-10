@@ -6,21 +6,25 @@ import android.view.View
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import com.app.findmycafeplus.Constants.Constants
+import com.app.findmycafeplus.Constants.Constants.LINE_BLUE
+import com.app.findmycafeplus.Constants.Constants.LINE_BROWN
+import com.app.findmycafeplus.Constants.Constants.LINE_GREEN
+import com.app.findmycafeplus.Constants.Constants.LINE_ORANGE
+import com.app.findmycafeplus.Constants.Constants.LINE_RED
 import com.app.findmycafeplus.Interface.FilterDialogCallBackInterface
 import com.app.findmycafeplus.Manager.DataManager
 import com.app.findmycafeplus.Manager.RealManager
 import com.app.findmycafeplus.Model.RMCafeInformation
-import com.app.findmycafeplus.Preference.PublicPreference
+import com.app.findmycafeplus.Preference.FilterPreference
 import com.app.findmycafeplus.R
 import com.app.findmycafeplus.Utils.Utils
-import io.realm.RealmQuery
 import io.realm.RealmResults
 import kotlinx.android.synthetic.main.dialog_filter.*
 
 class FilterDialog : Dialog{
 
     private var callBack : FilterDialogCallBackInterface? = null
-    private var preference : PublicPreference? = null
+    private var preference : FilterPreference? = null
 
 
     constructor(context: Context) : this(context,0)
@@ -33,13 +37,14 @@ class FilterDialog : Dialog{
 
         setContentView(R.layout.dialog_filter)
 
-        preference = PublicPreference(context)
+        preference = FilterPreference(context)
 
         initView()
 
         initEvent()
 
         setCancelable(false)
+
         Utils.setFullScreenDialog(this)
 
         initDialogItem()
@@ -68,6 +73,11 @@ class FilterDialog : Dialog{
                     preference?.setTasty(ratingTasty.getRatingValue())
 
                     callBack?.filterResult(getFilterResult())
+
+                    if(spLine.selectedItemPosition != 0){
+                        preference?.setLine(spLine.selectedItemPosition)
+                        preference?.setStation(spStation.selectedItemPosition)
+                    }
 
                     dismiss()
                 }
@@ -120,12 +130,24 @@ class FilterDialog : Dialog{
     }
 
     private fun getFilterResult() : RealmResults<RMCafeInformation>{
-        return RealManager.getRealm().where(RMCafeInformation::class.java)
+        val query = RealManager.getRealm().where(RMCafeInformation::class.java)
                 .greaterThan("wifi",preference!!.getWifi())
                 .greaterThan("seat",preference!!.getSeat())
                 .greaterThan("quiet",preference!!.getQuite())
                 .greaterThan("cheap",preference!!.getCheap())
                 .greaterThan("tasty",preference!!.getTasty())
-                .findAll()
+
+        when(spLine.selectedItemPosition){
+            LINE_RED -> { query.equalTo("isRedLine",true) }
+            LINE_BROWN -> { query.equalTo("isBrownLine",true) }
+            LINE_GREEN ->{  query.equalTo("isGreenLine",true)}
+            LINE_ORANGE ->{ query.equalTo("isOrangeLine",true)}
+            LINE_BLUE ->{ query.equalTo("isBlueLine",true)}
+        }
+        if(spStation.selectedItemPosition != 0 && spStation.adapter.count > 0){
+            query.equalTo("nearestStationName",spStation.selectedItem as String)
+        }
+
+        return query.findAll()
     }
 }

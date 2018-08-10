@@ -6,4 +6,8 @@
 
     <string name="navigation_drawer_open">open</string>
     <string name="navigation_drawer_close">close</string>
+
+    <!--facebook login setting-->
+    <string name="facebook_app_id" translatable="false">1144518749035552</string>
+    <string name="fb_login_protocol_scheme" translatable="false">fb1144518749035552</string>
 </resources>

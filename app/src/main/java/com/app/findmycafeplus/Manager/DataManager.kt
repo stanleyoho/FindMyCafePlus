@@ -55,6 +55,11 @@ object DataManager {
                 }
             }
 
+            brownLineArrayList.add(0,"不拘")
+            blueLineArrayList.add(0,"不拘")
+            redLineArrayList.add(0,"不拘")
+            greenLineArrayList.add(0,"不拘")
+            orangeLineArrayList.add(0,"不拘")
             LogUtils.e("DataManager", "initData success size : " + mrtDataList.size)
         } catch (e: IOException) {
             e.printStackTrace()
