@@ -16,6 +16,7 @@ import com.app.findmycafeplus.CustomView.FilterDialog
 import com.app.findmycafeplus.Interface.FilterDialogCallBackInterface
 import com.app.findmycafeplus.Model.RMCafeInformation
 import com.app.findmycafeplus.R
+import com.app.findmycafeplus.R.id.btnSearch
 import com.app.findmycafeplus.Utils.MapUtils
 import com.app.findmycafeplus.Utils.MarkerUtils
 import com.google.android.gms.maps.GoogleMap
@@ -32,7 +33,7 @@ class MapFragment : BasicFragament() , OnMapReadyCallback{
 
     private lateinit var mMap: GoogleMap
     private lateinit var cafeList : RealmResults<RMCafeInformation>
-    private lateinit var location : Location
+    private var location : Location? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -60,11 +61,7 @@ class MapFragment : BasicFragament() , OnMapReadyCallback{
         //add mark
         addMarkOnMap(cafeList)
 
-        try {
-            MapUtils.moveCameraTo(mMap,location,Constants.ZOOM_NORMAL)
-        }catch (e : Exception){
-            MapUtils.moveCameraToTaipei(mMap,Constants.ZOOM_NORMAL)
-        }
+        MapUtils.moveCameraTo(mMap,location,Constants.ZOOM_NORMAL)
     }
 
     /**
@@ -146,9 +143,9 @@ class MapFragment : BasicFragament() , OnMapReadyCallback{
             //get current location
             if (mLocationManager.isProviderEnabled(LocationManager.GPS_PROVIDER) || mLocationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER)) {
                 if (mLocationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
-                    location = mLocationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);  //使用GPS定位座標
+                    location = mLocationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER)  //使用GPS定位座標
                 } else if (mLocationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER)) {
-                    location = mLocationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER); //使用GPS定位座標
+                    location = mLocationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER) //使用GPS定位座標
                 }
             }
         }

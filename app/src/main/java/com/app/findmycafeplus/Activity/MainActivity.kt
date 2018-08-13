@@ -9,11 +9,13 @@ import android.view.View
 import android.widget.Toast
 import com.app.findmycafeplus.Fragment.MapFragment
 import com.app.findmycafeplus.R
+import com.google.firebase.auth.FirebaseAuth
 import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : BasicActivity() {
 
     val RC_SIGN_IN = 200
+    val authInstance : FirebaseAuth? = FirebaseAuth.getInstance()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -51,6 +53,8 @@ class MainActivity : BasicActivity() {
                 setDrawerVisible()
             }
             R.id.btnDonate ->{
+                val user = authInstance?.currentUser
+
                 Toast.makeText(this,"Donate",Toast.LENGTH_SHORT).show()
             }
         }
@@ -67,6 +71,7 @@ class MainActivity : BasicActivity() {
             }
             R.id.menuLogin ->{
                 Toast.makeText(this,"Login",Toast.LENGTH_SHORT).show()
+                startActivity( Intent(this@MainActivity,LoginActivity::class.java))
             }
             R.id.menuSettingSigned ,R.id.menuSettingUnSign ->{
                 Toast.makeText(this,"Setting",Toast.LENGTH_SHORT).show()

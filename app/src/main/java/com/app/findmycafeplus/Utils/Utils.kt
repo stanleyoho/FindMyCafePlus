@@ -4,6 +4,7 @@ import android.app.Dialog
 import android.content.Context
 import android.util.DisplayMetrics
 import android.view.WindowManager
+import android.widget.Toast
 
 object Utils {
 
@@ -58,5 +59,9 @@ object Utils {
     fun dp2Px(context : Context , dp : Float) : Int{
         val density = context.resources.displayMetrics.density
         return (dp * density + 0.5f).toInt()
+    }
+
+    fun showToast(context: Context , message : String){
+        Toast.makeText(context,message,Toast.LENGTH_SHORT).show()
     }
 }

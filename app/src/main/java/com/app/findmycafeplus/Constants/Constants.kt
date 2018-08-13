@@ -41,4 +41,5 @@ object Constants {
     const val ZOOM_MAX : Float = 25f
     const val ZOOM_MIN : Float = 10f
     const val ZOOM_NORMAL : Float = 18f
+
 }

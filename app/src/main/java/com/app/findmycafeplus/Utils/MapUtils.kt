@@ -2,6 +2,7 @@ package com.app.findmycafeplus.Utils
 
 import android.location.Location
 import com.app.findmycafeplus.Constants.Constants
+import com.app.findmycafeplus.R.id.map
 import com.google.android.gms.maps.CameraUpdate
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
@@ -28,8 +29,12 @@ object MapUtils {
     /**
      * move camera by location
      * */
-    fun moveCameraTo(map : GoogleMap , location : Location , zoom : Float){
-        map.animateCamera(getCameraLatLngZoom(location.latitude,location.longitude,zoom))
+    fun moveCameraTo(map : GoogleMap , location : Location? , zoom : Float){
+        if(location == null){
+            moveCameraToTaipei(map,zoom)
+        }else{
+            map.animateCamera(getCameraLatLngZoom(location.latitude,location.longitude,zoom))
+        }
     }
 
     /**
