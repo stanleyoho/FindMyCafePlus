@@ -10,4 +10,7 @@
     <!--facebook login setting-->
     <string name="facebook_app_id" translatable="false">1144518749035552</string>
     <string name="fb_login_protocol_scheme" translatable="false">fb1144518749035552</string>
+    
+    <string name="login_google">Sign in with Google+</string>
+    <string name="login_mail">Sign in with Mail</string>
 </resources>

@@ -5,6 +5,8 @@
     <color name="colorAccent">#926261</color>
 
     <color name="bgActionBar">#f4d5ad</color>
-    <color name="white">#ffffff</color>
     <color name="pink">#edb9cc</color>
+    <color name="colorWhite">#FFFFFF</color>
+    <color name="bgGoogleLogin">#cf4332</color>
+    <color name="bgMailLogin">#36b3f9</color>
 </resources>

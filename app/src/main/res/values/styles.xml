@@ -35,4 +35,42 @@
         <attr name="starValue" format="integer"/>
     </declare-styleable>
 
+    <style name="FacebookLoginButton">
+        <item name="android:textSize">15dp</item>
+        <item name="android:textAllCaps">false</item>
+        <item name="android:layout_gravity">center</item>
+        <item name="android:textColor">@color/colorWhite</item>
+        <item name="android:paddingLeft">13dp</item>
+        <item name="colorButtonNormal">@color/colorAccent</item>
+        <item name="android:paddingTop">13dp</item>
+        <item name="android:paddingBottom">11dp</item>
+        <item name="android:layout_marginLeft">4dp</item>
+        <item name="android:layout_marginRight">4dp</item>
+    </style>
+
+    <style name="GoogleLoginButtom">
+        <item name="android:textSize">15dp</item>
+        <item name="android:textAllCaps">false</item>
+        <item name="android:layout_gravity">center</item>
+        <item name="android:textColor">@color/colorWhite</item>
+        <item name="android:paddingTop">11dp</item>
+        <item name="android:paddingBottom">11dp</item>
+        <item name="android:layout_marginLeft">4dp</item>
+        <item name="android:layout_marginRight">4dp</item>
+        <item name="android:paddingLeft">10dp</item>
+        <item name="android:background">@color/bgGoogleLogin</item>
+    </style>
+
+    <style name="MailLoginButtom">
+        <item name="android:textSize">15dp</item>
+        <item name="android:textAllCaps">false</item>
+        <item name="android:layout_gravity">center</item>
+        <item name="android:textColor">@color/colorWhite</item>
+        <item name="android:paddingTop">11dp</item>
+        <item name="android:paddingBottom">11dp</item>
+        <item name="android:layout_marginLeft">4dp</item>
+        <item name="android:layout_marginRight">4dp</item>
+        <item name="android:paddingLeft">10dp</item>
+        <item name="android:background">@color/bgMailLogin</item>
+    </style>
 </resources>
