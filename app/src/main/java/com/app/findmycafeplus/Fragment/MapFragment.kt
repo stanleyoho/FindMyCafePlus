@@ -16,7 +16,6 @@ import com.app.findmycafeplus.CustomView.FilterDialog
 import com.app.findmycafeplus.Interface.FilterDialogCallBackInterface
 import com.app.findmycafeplus.Model.RMCafeInformation
 import com.app.findmycafeplus.R
-import com.app.findmycafeplus.R.id.btnSearch
 import com.app.findmycafeplus.Utils.MapUtils
 import com.app.findmycafeplus.Utils.MarkerUtils
 import com.google.android.gms.maps.GoogleMap
@@ -29,7 +28,7 @@ import io.realm.RealmResults
 import kotlinx.android.synthetic.main.fragment_map.*
 
 
-class MapFragment : BasicFragament() , OnMapReadyCallback{
+class MapFragment : BasicFragment() , OnMapReadyCallback{
 
     private lateinit var mMap: GoogleMap
     private lateinit var cafeList : RealmResults<RMCafeInformation>

@@ -28,11 +28,12 @@
         android:layout_marginTop="10dp">
 
         <EditText
+            android:id="@+id/editLoginAccount"
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:inputType="textEmailAddress"
             android:background="@null"
-            android:hint="account"/>
+            android:hint="@string/login_account_hint"/>
     </LinearLayout>
 
     <LinearLayout
@@ -43,11 +44,12 @@
         android:paddingEnd="5dp"
         android:layout_marginTop="10dp">
         <EditText
+            android:id="@+id/editLoginPwd"
             android:layout_width="wrap_content"
             android:layout_height="50dp"
-            android:inputType="text"
+            android:inputType="textPassword"
             android:background="@null"
-            android:hint="password"/>
+            android:hint="@string/login_pwd_hint"/>
     </LinearLayout>
 
     <Button
@@ -62,7 +64,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp">
         <Button
-            android:id="@+id/btnRegGoogle"
+            android:id="@+id/btnLoginGoogle"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -76,7 +78,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp">
         <com.facebook.login.widget.LoginButton
-            android:id="@+id/btnRegFacebook"
+            android:id="@+id/btnLoginFacebook"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -89,7 +91,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp">
         <Button
-            android:id="@+id/btnRegMail"
+            android:id="@+id/btnLoginMail"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -98,5 +100,28 @@
             android:text="@string/login_mail"/>
     </LinearLayout>
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp">
+        <Button
+            android:id="@+id/btnLoginIsLogin"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="is login"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp">
+        <Button
+            android:id="@+id/btnLogout"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="loginout"/>
+    </LinearLayout>
 
 </LinearLayout>

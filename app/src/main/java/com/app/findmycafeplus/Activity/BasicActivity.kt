@@ -1,10 +1,16 @@
 package com.app.findmycafeplus.Activity
 
+import android.content.Intent
 import android.os.Bundle
 import android.support.annotation.IdRes
 import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentManager
 import android.support.v7.app.AppCompatActivity
+import android.R.attr.data
+import android.support.v4.app.FragmentActivity
+import android.util.Log
+import com.app.findmycafeplus.Utils.LogUtils
+
 
 open class BasicActivity : AppCompatActivity() {
 
@@ -66,4 +72,44 @@ open class BasicActivity : AppCompatActivity() {
             e.printStackTrace()
         }
     }
+
+//    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+//        val fm = supportFragmentManager
+//        var index = requestCode shr 16
+//        if (index != 0) {
+//            index--
+//            if (fm.fragments == null || index < 0
+//                    || index >= fm.fragments.size) {
+//                LogUtils.e("result", "Activity result fragment index out of range: 0x" + Integer.toHexString(requestCode))
+//                return
+//            }
+//            val frag = fm.fragments[index]
+//            if (frag == null) {
+//                LogUtils.e("result", "Activity result no fragment exists for index: 0x" + Integer.toHexString(requestCode))
+//            } else {
+//                handleResult(frag, requestCode, resultCode, data)
+//            }
+//            return
+//        }
+//    }
+//
+//    /**
+//     * 递归调用，对所有子Fragement生效
+//     *
+//     * @param frag
+//     * @param requestCode
+//     * @param resultCode
+//     * @param data
+//     */
+//    private fun handleResult(frag: Fragment, requestCode: Int, resultCode: Int,
+//                             data: Intent?) {
+//        frag.onActivityResult(requestCode and 0xffff, resultCode, data)
+//        val frags = frag.childFragmentManager.fragments
+//        if (frags != null) {
+//            for (f in frags) {
+//                if (f != null)
+//                    handleResult(f, requestCode, resultCode, data)
+//            }
+//        }
+//    }
 }

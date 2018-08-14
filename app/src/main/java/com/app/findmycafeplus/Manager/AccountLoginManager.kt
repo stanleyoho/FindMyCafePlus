@@ -1,7 +1,9 @@
 package com.app.findmycafeplus.Manager
 
+import android.content.Context
 import com.app.findmycafeplus.Constants.Constants
 import com.app.findmycafeplus.Utils.LogUtils
+import com.app.findmycafeplus.Utils.Utils
 import com.facebook.AccessToken
 import com.facebook.Profile
 import com.facebook.login.LoginManager
@@ -21,6 +23,13 @@ object AccountLoginManager {
      * check is login
      * */
     fun isLogin() : Boolean{
+        if(isFacebookLogin()){
+            LogUtils.d("log current state" , "facebook login" )
+        }else if(isGoogleLogin()){
+            LogUtils.d("log current state" , "google login" )
+        }else{
+            LogUtils.d("log current state" , "all logout" )
+        }
         return !(!isFacebookLogin() && !isGoogleLogin())
     }
 
@@ -40,41 +49,73 @@ object AccountLoginManager {
      * logout
      * */
     fun logout() {
-        if(isGoogleLogin()){
+        if(isGoogleLogin() && isFacebookLogin()){
             googleLogout()
+            facebookLogout()
         }else if(isFacebookLogin()){
             facebookLogout()
+        }else if(isGoogleLogin()){
+            googleLogout()
+        }else{
+            LogUtils.d("log current state" , "all logout" )
         }
     }
 
     private fun googleLogout(){
         authInstance.signOut()
+        LogUtils.d("log current state" , "google logout" )
     }
 
     private fun facebookLogout(){
         facebookManager.logOut()
+        LogUtils.d("log current state" , "facebook logout" )
     }
 
     /**
-     * get user info
+     * log current state
      * */
-    fun getUser(){
+    fun logUserInfo(){
         var userInfo : FirebaseUser? = null
-        var profile = Profile.getCurrentProfile()
+        var profile: Profile ?  =  null
         if (isGoogleLogin()){
             userInfo = authInstance.currentUser
         }else if (isFacebookLogin()){
-
+            profile = Profile.getCurrentProfile()
         }
 
-//        LogUtils.d("isLogin","***************************************")
-//        LogUtils.d("isLogin" , "uid : " + user?.uid)
-//        LogUtils.d("isLogin" , "name : " + user?.displayName)
-//        LogUtils.d("isLogin" , "email : " + user?.email)
-//        LogUtils.d("isLogin" , "photoUrl : " + user?.photoUrl)
-//        LogUtils.d("isLogin" , "phoneNumber : " + user?.phoneNumber)
-//        LogUtils.d("isLogin" , "isEmailVerified : " + user?.isEmailVerified)
-//        LogUtils.d("isLogin","***************************************")
+        LogUtils.d("log current state","***************************************")
+        if(userInfo != null){
+            LogUtils.d("log current state","*************Google login****************")
+            LogUtils.d("log current state" , "uid : " + userInfo.uid)
+            LogUtils.d("log current state" , "name : " + userInfo.displayName)
+            LogUtils.d("log current state" , "email : " + userInfo.email)
+            LogUtils.d("log current state" , "photoUrl : " + userInfo.photoUrl)
+            LogUtils.d("log current state" , "phoneNumber : " + userInfo.phoneNumber)
+            LogUtils.d("log current state" , "isEmailVerified : " + userInfo.isEmailVerified)
+        }else if(profile != null){
+            LogUtils.d("log current state","*************Facebook login****************")
+            LogUtils.d("log current state" , "id : " + profile.id)
+            LogUtils.d("log current state" , "firstName : " + profile.firstName)
+            LogUtils.d("log current state" , "middleName : " + profile.middleName)
+            LogUtils.d("log current state" , "lastName : " + profile.lastName)
+            LogUtils.d("log current state" , "linkUri : " + profile.linkUri)
+            LogUtils.d("log current state" , "name : " + profile.name)
+            LogUtils.d("log current state" , "getProfilePictureUri : " + profile.getProfilePictureUri(80,80))
+        }else if(userInfo == null && profile == null){
+            LogUtils.d("log current state","*************all login out****************")
+        }
+        LogUtils.d("log current state","***************************************")
+
     }
 
+    fun signInWithMail(context : Context ,mail : String , pwd : String){
+        authInstance.createUserWithEmailAndPassword(mail,pwd)
+                .addOnCompleteListener { p0 ->
+                    if (p0.isSuccessful) {
+                        Utils.showToast(context, "main login success")
+                    } else {
+                        Utils.showToast(context, "main login fail")
+                    }
+                }
+    }
 }
