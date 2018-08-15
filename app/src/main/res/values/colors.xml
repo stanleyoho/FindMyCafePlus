@@ -9,4 +9,6 @@
     <color name="colorWhite">#FFFFFF</color>
     <color name="bgGoogleLogin">#cf4332</color>
     <color name="bgMailLogin">#36b3f9</color>
+
+    <color name="colorTranslucent">#80000000</color>
 </resources>

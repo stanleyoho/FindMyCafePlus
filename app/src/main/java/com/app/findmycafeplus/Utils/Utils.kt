@@ -2,8 +2,11 @@ package com.app.findmycafeplus.Utils
 
 import android.app.Dialog
 import android.content.Context
+import android.graphics.drawable.Drawable
+import android.support.annotation.IdRes
 import android.util.DisplayMetrics
 import android.view.WindowManager
+import android.widget.ImageView
 import android.widget.Toast
 
 object Utils {

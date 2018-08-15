@@ -9,7 +9,7 @@ object Constants {
     const val LOCATION_TAIPIE_STATION_LAT = 25.048734
     const val LOCATION_TAIPIE_STATION_LOG = 121.514231
 
-    /** realm db name  */
+    /** Realm db name  */
     const val REALM_DB_NAME = "FindMyCafe.realm"
     /** realm db version  */
     const val REALM_VERSION: Long = 1
@@ -38,13 +38,22 @@ object Constants {
     const val USER_PREFERENCE_IMAGE_URL = "USER_PREFERENCE_IMAGE_URL"
     const val USER_PREFERENCE_LOGIN_TYPE = "USER_PREFERENCE_LOGIN_TYPE"
 
-    /** camera zoom*/
+    /** Level Preference  */
+    const val LEVEL_PREFERENCE = "LEVEL_PREFERENCE"
+    const val LEVEL_PREFERENCE_LEVEL = "LEVEL_PREFERENCE_LEVEL"
+    const val LEVEL_PREFERENCE_XP = "LEVEL_PREFERENCE_XP"
+    val LEVEL_ARRAY = arrayOf(10,20,30,40,50,60,70,80,90,100)
+
+    /** Camera zoom*/
     const val ZOOM_MAX : Float = 25f
     const val ZOOM_MIN : Float = 10f
     const val ZOOM_NORMAL : Float = 18f
 
-    /** login type*/
+    /** Login type*/
     const val LOGIN_TYPE_GOOGLE : Int = 0
     const val LOGIN_TYPE_FACEBOOK : Int = 1
     const val LOGIN_TYPE_EMAIL : Int = 2
+
+    /** Local Broadcast Manager Intent Filter */
+    const val LEVEL_BROADCAST_INTENT = "LEVEL_BROADCAST_INTENT"
 }

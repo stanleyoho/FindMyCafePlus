@@ -2,11 +2,13 @@ package com.app.findmycafeplus.Fragment
 
 import android.Manifest
 import android.content.Context.LOCATION_SERVICE
+import android.content.Intent
 import android.content.pm.PackageManager
 import android.location.Location
 import android.location.LocationManager
 import android.os.Bundle
 import android.support.v4.content.ContextCompat
+import android.support.v4.content.LocalBroadcastManager
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -15,6 +17,7 @@ import com.app.findmycafeplus.Constants.Constants
 import com.app.findmycafeplus.CustomView.FilterDialog
 import com.app.findmycafeplus.Interface.FilterDialogCallBackInterface
 import com.app.findmycafeplus.Model.RMCafeInformation
+import com.app.findmycafeplus.Preference.LevelPreference
 import com.app.findmycafeplus.R
 import com.app.findmycafeplus.Utils.MapUtils
 import com.app.findmycafeplus.Utils.MarkerUtils
@@ -76,6 +79,10 @@ class MapFragment : BasicFragment() , OnMapReadyCallback{
         when(viewId){
             R.id.btnSearch ->{
                 FilterDialog(context!!,filterCallBack).show()
+                LevelPreference(context!!).exprence ++
+                val intent = Intent()
+                intent.action = Constants.LEVEL_BROADCAST_INTENT
+                LocalBroadcastManager.getInstance(context!!).sendBroadcast(intent)
             }
         }
     }

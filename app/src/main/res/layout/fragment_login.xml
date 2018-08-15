@@ -33,7 +33,8 @@
             android:layout_height="50dp"
             android:inputType="textEmailAddress"
             android:background="@null"
-            android:hint="@string/login_account_hint"/>
+            android:hint="@string/login_account_hint"
+            android:text="stanly7768@hotmail.com"/>
     </LinearLayout>
 
     <LinearLayout
@@ -49,7 +50,8 @@
             android:layout_height="50dp"
             android:inputType="textPassword"
             android:background="@null"
-            android:hint="@string/login_pwd_hint"/>
+            android:hint="@string/login_pwd_hint"
+            android:text="hau89513717"/>
     </LinearLayout>
 
     <Button

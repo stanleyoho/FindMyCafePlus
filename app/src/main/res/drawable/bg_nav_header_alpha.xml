@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<bitmap xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:src="@drawable/bg_nav_header"
+    android:alpha="0.5"
+    tools:ignore="ResourceCycle">
+</bitmap>

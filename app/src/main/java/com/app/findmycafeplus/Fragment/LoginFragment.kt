@@ -1,13 +1,18 @@
 package com.app.findmycafeplus.Fragment
 
+import android.accounts.Account
+import android.accounts.AccountManager
 import android.content.Intent
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import com.app.findmycafeplus.Constants.Constants
 import com.app.findmycafeplus.Constants.PageName
+import com.app.findmycafeplus.CustomView.LoadDialog
 import com.app.findmycafeplus.Manager.AccountLoginManager
+import com.app.findmycafeplus.Preference.UserPreference
 import com.app.findmycafeplus.R
 import com.app.findmycafeplus.Utils.LogUtils
 import com.app.findmycafeplus.Utils.Utils
@@ -24,11 +29,12 @@ import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.firebase.auth.FacebookAuthProvider
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.GoogleAuthProvider
+import kotlinx.android.synthetic.main.fragment_login.*
 import kotlinx.android.synthetic.main.fragment_login.view.*
 
 class LoginFragment : BasicFragment() {
 
-    private val auth = FirebaseAuth.getInstance()
+    private val auth = AccountLoginManager.getAuthInstance()
 
     private val facebookCallBackManager = CallbackManager.Factory.create()
     private val facebookLoginManager = LoginManager.getInstance()
@@ -55,6 +61,7 @@ class LoginFragment : BasicFragment() {
         view.btnLoginFacebook.setOnClickListener(onclickListener)
         view.btnLoginGoogle.setOnClickListener(onclickListener)
         view.btnLogin.setOnClickListener(onclickListener)
+        view.btnLoginFacebook.setOnClickListener(onclickListener)
         //test
         view.btnLoginIsLogin.setOnClickListener(onclickListener)
         view.btnLogout.setOnClickListener(onclickListener)
@@ -67,28 +74,34 @@ class LoginFragment : BasicFragment() {
         when (viewId) {
             R.id.btnLoginMail -> fragmentChangeListener.switchFragment(PageName.REGISTER)
             R.id.btnLoginGoogle -> {
+                setLoadDialog()
                 signInWithGoogle()
             }
             R.id.btnLogin -> {
+                setLoadDialog()
+                signInWithMail()
             }
-
-            //text
-            R.id.btnLoginIsLogin ->{
+            R.id.btnLoginFacebook ->{
+                setLoadDialog()
+            }
+            //test
+            R.id.btnLoginIsLogin -> {
                 AccountLoginManager.isLogin()
             }
-            R.id.btnLogout ->{
+            R.id.btnLogout -> {
                 AccountLoginManager.logout()
             }
         }
     }
 
     private fun signInWithMail() {
-        val mail = "stanly7768@hotmail.com"
-        val pws = "hau89513717"
-        auth.createUserWithEmailAndPassword(mail, pws)
+        val mail = editLoginAccount.text.toString()
+        val pws = editLoginPwd.text.toString()
+        AccountLoginManager.loginWithMail(mail, pws)
                 .addOnCompleteListener { p0 ->
                     if (p0.isSuccessful) {
                         Utils.showToast(context!!, "main login success")
+                        loginSuccess(Constants.LOGIN_TYPE_EMAIL)
                     } else {
                         Utils.showToast(context!!, "main login fail")
                     }
@@ -102,14 +115,13 @@ class LoginFragment : BasicFragment() {
                 .build()
 
         val mGoogleSignInClient = GoogleSignIn.getClient(context!!, gso)
-        val signInIntent = mGoogleSignInClient.getSignInIntent()
+        val signInIntent = mGoogleSignInClient.signInIntent
         startActivityForResult(signInIntent, GOOGLE_SIGN_IN)
     }
 
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-
         //facebook
         facebookCallBackManager.onActivityResult(requestCode, resultCode, data)
 
@@ -126,15 +138,17 @@ class LoginFragment : BasicFragment() {
         val credential = GoogleAuthProvider.getCredential(account?.idToken, null)
         auth.signInWithCredential(credential).addOnCompleteListener { p0 ->
             if (p0.isSuccessful) {
+                loginSuccess(Constants.LOGIN_TYPE_GOOGLE)
                 Utils.showToast(context!!, "google login success")
             } else {
+                loginFail()
                 Utils.showToast(context!!, "google login fail")
             }
             AccountLoginManager.logUserInfo()
         }
     }
 
-    private fun signInWithFacebook(view : View) {
+    private fun signInWithFacebook(view: View) {
         view.btnLoginFacebook.setReadPermissions("email", "public_profile")
 
         view.btnLoginFacebook.registerCallback(facebookCallBackManager, object : FacebookCallback<LoginResult> {
@@ -159,10 +173,27 @@ class LoginFragment : BasicFragment() {
         auth.signInWithCredential(cred)
                 .addOnCompleteListener(activity!!) { p0 ->
                     if (p0.isSuccessful) {
+                        loginSuccess(Constants.LOGIN_TYPE_FACEBOOK)
                         LogUtils.e("facebook:onSuccess:", "success")
                     } else {
+                        loginFail()
                         LogUtils.e("facebook:fail:", "fail")
                     }
                 }
     }
+
+    private fun loginSuccess(loginType : Int){
+        UserPreference(context!!).loginType = loginType
+        setLoadDialog()
+        fragmentChangeListener.switchFragment(PageName.BACK_TO_MAIN)
+    }
+
+    private fun loginFail(){
+        setLoadDialog()
+    }
+
+    private fun setLoadDialog(){
+        fragmentChangeListener.switchFragment(PageName.SHOW_OR_DISMISS_LOADING)
+    }
+
 }

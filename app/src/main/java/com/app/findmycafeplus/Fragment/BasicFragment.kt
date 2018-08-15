@@ -15,10 +15,13 @@ open class BasicFragment : Fragment() {
 
         // This makes sure that the container activity has implemented
         // the callback interface. If not, it throws an exception
-        try {
-            fragmentChangeListener = context as FragmentChangeListener
-        } catch (e: ClassCastException) {
-            throw ClassCastException(context.toString() + " must implement OnHeadlineSelectedListener")
+        if(context is FragmentChangeListener){
+            try {
+                fragmentChangeListener = context as FragmentChangeListener
+            } catch (e: ClassCastException) {
+                throw ClassCastException(context.toString() + " must implement OnHeadlineSelectedListener")
+            }
         }
+
     }
 }

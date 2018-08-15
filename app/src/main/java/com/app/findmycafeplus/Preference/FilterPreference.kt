@@ -77,4 +77,9 @@ class FilterPreference {
     fun getStation() : Int{
         return preference.getInt(Constants.FILTER_PREFERENCE_STATION,0)
     }
+
+    fun reset(){
+        edit.clear()
+        edit.apply()
+    }
 }
