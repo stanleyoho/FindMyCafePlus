@@ -6,6 +6,7 @@
 
     <color name="bgActionBar">#f4d5ad</color>
     <color name="pink">#edb9cc</color>
+    <color name="gray">#d6d6d6</color>
     <color name="colorWhite">#FFFFFF</color>
     <color name="bgGoogleLogin">#cf4332</color>
     <color name="bgMailLogin">#36b3f9</color>

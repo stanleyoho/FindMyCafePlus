@@ -61,7 +61,7 @@ class MapFragment : BasicFragment() , OnMapReadyCallback{
         initMap(googleMap)
 
         //add mark
-        addMarkOnMap(cafeList)
+//        addMarkOnMap(cafeList)
 
         MapUtils.moveCameraTo(mMap,location,Constants.ZOOM_NORMAL)
     }

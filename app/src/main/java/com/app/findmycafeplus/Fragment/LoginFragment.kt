@@ -5,6 +5,8 @@ import android.accounts.AccountManager
 import android.content.Intent
 import android.os.Bundle
 import android.support.v4.app.Fragment
+import android.text.Editable
+import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -37,7 +39,7 @@ class LoginFragment : BasicFragment() {
     private val auth = AccountLoginManager.getAuthInstance()
 
     private val facebookCallBackManager = CallbackManager.Factory.create()
-    private val facebookLoginManager = LoginManager.getInstance()
+    private lateinit var  loginFragmentView : View
     private val GOOGLE_SIGN_IN = 100
 
     companion object {
@@ -56,17 +58,41 @@ class LoginFragment : BasicFragment() {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
 
-        val view = inflater.inflate(R.layout.fragment_login, container, false)
+        loginFragmentView = inflater.inflate(R.layout.fragment_login, container, false)
+        initEvent(loginFragmentView)
+        signInWithFacebook(loginFragmentView)
+        return loginFragmentView
+    }
+
+    private fun initEvent(view : View){
         view.btnLoginMail.setOnClickListener(onclickListener)
         view.btnLoginFacebook.setOnClickListener(onclickListener)
         view.btnLoginGoogle.setOnClickListener(onclickListener)
         view.btnLogin.setOnClickListener(onclickListener)
         view.btnLoginFacebook.setOnClickListener(onclickListener)
+
+        //setDisable
+        view.btnLogin.isEnabled = false
+
+        //set textChangeListener
+        view.editLoginAccount.addTextChangedListener(textChangeListener)
+        view.editLoginPwd.addTextChangedListener(textChangeListener)
+
         //test
         view.btnLoginIsLogin.setOnClickListener(onclickListener)
         view.btnLogout.setOnClickListener(onclickListener)
-        signInWithFacebook(view)
-        return view
+    }
+
+    private var textChangeListener = object : TextWatcher{
+        override fun afterTextChanged(s: Editable?) {
+            val accountText = loginFragmentView.editLoginAccount.text.toString().length
+            val pwdText = loginFragmentView.editLoginPwd.text.toString().length
+            btnLogin.isEnabled = accountText > 0 && pwdText >0
+        }
+
+        override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+
+        override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
     }
 
     private var onclickListener = View.OnClickListener { v ->
