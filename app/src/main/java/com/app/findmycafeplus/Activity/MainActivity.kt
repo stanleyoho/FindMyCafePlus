@@ -115,7 +115,7 @@ class MainActivity : BasicActivity() {
     }
 
     /**
-     * on click listener
+     * onClick listener
      * */
     private var onclickListener = View.OnClickListener { v ->
         val viewId = v?.id
