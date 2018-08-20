@@ -2,6 +2,7 @@ package com.app.findmycafeplus.Activity
 
 import android.content.*
 import android.os.Bundle
+import android.preference.Preference
 import android.support.design.widget.NavigationView
 import android.support.v4.content.ContextCompat
 import android.support.v4.content.LocalBroadcastManager
@@ -11,6 +12,7 @@ import android.widget.Toast
 import com.app.findmycafeplus.Constants.Constants
 import com.app.findmycafeplus.Fragment.MapFragment
 import com.app.findmycafeplus.Manager.AccountLoginManager
+import com.app.findmycafeplus.Preference.FilterPreference
 import com.app.findmycafeplus.Preference.LevelPreference
 import com.app.findmycafeplus.Preference.UserPreference
 import com.app.findmycafeplus.R
@@ -48,7 +50,7 @@ class MainActivity : BasicActivity() {
 
     override fun onDestroy() {
         super.onDestroy()
-
+        FilterPreference(this).reset()
     }
 
     /**
@@ -78,7 +80,7 @@ class MainActivity : BasicActivity() {
                     navHeaderView.ivNavLoginType.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.ic_login_mail))
                 }
                 Constants.LOGIN_TYPE_FACEBOOK -> {
-                    navHeaderView.ivNavLoginType.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.com_facebook_button_icon))
+                    navHeaderView.ivNavLoginType.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.com_facebook_button_icon_blue))
                 }
                 Constants.LOGIN_TYPE_GOOGLE -> {
                     navHeaderView.ivNavLoginType.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.ic_google_login))
@@ -125,7 +127,7 @@ class MainActivity : BasicActivity() {
             }
             R.id.btnDonate -> {
                 Toast.makeText(this, "Donate", Toast.LENGTH_SHORT).show()
-                levelPreference.exprence++
+                levelPreference.experience++
             }
         }
     }
@@ -150,7 +152,7 @@ class MainActivity : BasicActivity() {
                 Toast.makeText(this, "Setting", Toast.LENGTH_SHORT).show()
             }
             R.id.menuLogout -> {
-                AccountLoginManager.logout()
+                AccountLoginManager.logout(this@MainActivity)
                 Toast.makeText(this, "Logout", Toast.LENGTH_SHORT).show()
                 loginCheck()
             }
@@ -163,7 +165,7 @@ class MainActivity : BasicActivity() {
      * update level listener
      * */
     private fun updateLevel() {
-        navHeaderView.lvNav.updateCurrentLevel(this, levelPreference.level, levelPreference.exprence)
+        navHeaderView.lvNav.updateCurrentLevel(this, levelPreference.level, levelPreference.experience)
     }
 
     /**
@@ -172,7 +174,7 @@ class MainActivity : BasicActivity() {
     private var levelPreferenceChangeListener = SharedPreferences.OnSharedPreferenceChangeListener { sharedPreferences, key ->
         if (key != null && key == Constants.LEVEL_PREFERENCE_XP) {
             var level = levelPreference.level
-            var xp = levelPreference.exprence
+            var xp = levelPreference.experience
 
             if (xp >= Constants.LEVEL_ARRAY[level]) {
                 level++

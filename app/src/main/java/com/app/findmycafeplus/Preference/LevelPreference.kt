@@ -18,7 +18,7 @@ class LevelPreference {
         edit.apply()
     }
 
-    var exprence : Int
+    var experience : Int
     get() {
         return preference.getInt(Constants.LEVEL_PREFERENCE_XP,0)
     }
@@ -38,5 +38,10 @@ class LevelPreference {
 
     fun removeLevelChangeListener(listener : SharedPreferences.OnSharedPreferenceChangeListener){
         preference.unregisterOnSharedPreferenceChangeListener(listener)
+    }
+
+    fun reset(){
+        level = 0
+        experience = 0
     }
 }

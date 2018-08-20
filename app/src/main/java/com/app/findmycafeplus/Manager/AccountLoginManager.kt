@@ -2,6 +2,8 @@ package com.app.findmycafeplus.Manager
 
 import android.content.Context
 import com.app.findmycafeplus.Model.CurrentUserInfo
+import com.app.findmycafeplus.Preference.LevelPreference
+import com.app.findmycafeplus.Preference.UserPreference
 import com.app.findmycafeplus.Utils.LogUtils
 import com.app.findmycafeplus.Utils.Utils
 import com.facebook.AccessToken
@@ -56,7 +58,7 @@ object AccountLoginManager {
     /**
      * logout
      * */
-    fun logout() {
+    fun logout(context : Context) {
         if(isGoogleLogin() && isFacebookLogin()){
             googleLogout()
             facebookLogout()
@@ -67,6 +69,8 @@ object AccountLoginManager {
         }else{
             LogUtils.d("log current state" , "all logout" )
         }
+        UserPreference(context).rest()
+        LevelPreference(context).reset()
     }
 
     private fun googleLogout(){
@@ -108,7 +112,7 @@ object AccountLoginManager {
             LogUtils.d("log current state" , "lastName : " + profile.lastName)
             LogUtils.d("log current state" , "linkUri : " + profile.linkUri)
             LogUtils.d("log current state" , "name : " + profile.name)
-            LogUtils.d("log current state" , "getProfilePictureUri : " + profile.getProfilePictureUri(80,80))
+            LogUtils.d("log current state" , "getProfilePictureUri : " + profile.getProfilePictureUri(50,50))
         }else if(userInfo == null && profile == null){
             LogUtils.d("log current state","*************all login out****************")
         }
@@ -125,15 +129,15 @@ object AccountLoginManager {
     }
 
     fun getUserInfo() : CurrentUserInfo? {
-        var userInfo : FirebaseUser? = null
-        var profile: Profile ?  =  null
+        val userInfo : FirebaseUser?
+        val profile: Profile ?
         var currentUserInfo : CurrentUserInfo? = null
         if (isGoogleLogin()){
             userInfo = authInstance.currentUser
             currentUserInfo = CurrentUserInfo(userInfo?.email,userInfo?.photoUrl.toString())
         }else if (isFacebookLogin()){
             profile = Profile.getCurrentProfile()
-            currentUserInfo = CurrentUserInfo(profile.name,profile.getProfilePictureUri(80,80).toString())
+            currentUserInfo = CurrentUserInfo(profile.name,profile.getProfilePictureUri(50,50).toString())
         }
 
         return currentUserInfo

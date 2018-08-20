@@ -14,14 +14,12 @@ import com.app.findmycafeplus.Constants.Constants
 import com.app.findmycafeplus.Constants.PageName
 import com.app.findmycafeplus.CustomView.LoadDialog
 import com.app.findmycafeplus.Manager.AccountLoginManager
+import com.app.findmycafeplus.Model.CurrentUserInfo
 import com.app.findmycafeplus.Preference.UserPreference
 import com.app.findmycafeplus.R
 import com.app.findmycafeplus.Utils.LogUtils
 import com.app.findmycafeplus.Utils.Utils
-import com.facebook.AccessToken
-import com.facebook.CallbackManager
-import com.facebook.FacebookCallback
-import com.facebook.FacebookException
+import com.facebook.*
 import com.facebook.login.LoginManager
 import com.facebook.login.LoginResult
 import com.google.android.gms.auth.api.Auth
@@ -78,9 +76,6 @@ class LoginFragment : BasicFragment() {
         view.editLoginAccount.addTextChangedListener(textChangeListener)
         view.editLoginPwd.addTextChangedListener(textChangeListener)
 
-        //test
-        view.btnLoginIsLogin.setOnClickListener(onclickListener)
-        view.btnLogout.setOnClickListener(onclickListener)
     }
 
     private var textChangeListener = object : TextWatcher{
@@ -110,13 +105,6 @@ class LoginFragment : BasicFragment() {
             R.id.btnLoginFacebook ->{
                 setLoadDialog()
             }
-            //test
-            R.id.btnLoginIsLogin -> {
-                AccountLoginManager.isLogin()
-            }
-            R.id.btnLogout -> {
-                AccountLoginManager.logout()
-            }
         }
     }
 
@@ -127,7 +115,7 @@ class LoginFragment : BasicFragment() {
                 .addOnCompleteListener { p0 ->
                     if (p0.isSuccessful) {
                         Utils.showToast(context!!, "main login success")
-                        loginSuccess(Constants.LOGIN_TYPE_EMAIL)
+                        loginSuccess(Constants.LOGIN_TYPE_EMAIL,mail)
                     } else {
                         Utils.showToast(context!!, "main login fail")
                     }
@@ -164,7 +152,7 @@ class LoginFragment : BasicFragment() {
         val credential = GoogleAuthProvider.getCredential(account?.idToken, null)
         auth.signInWithCredential(credential).addOnCompleteListener { p0 ->
             if (p0.isSuccessful) {
-                loginSuccess(Constants.LOGIN_TYPE_GOOGLE)
+                loginSuccess(Constants.LOGIN_TYPE_GOOGLE,account.email!!)
                 Utils.showToast(context!!, "google login success")
             } else {
                 loginFail()
@@ -199,7 +187,7 @@ class LoginFragment : BasicFragment() {
         auth.signInWithCredential(cred)
                 .addOnCompleteListener(activity!!) { p0 ->
                     if (p0.isSuccessful) {
-                        loginSuccess(Constants.LOGIN_TYPE_FACEBOOK)
+                        loginSuccess(Constants.LOGIN_TYPE_FACEBOOK,AccountLoginManager.getUserInfo()?.mail!!)
                         LogUtils.e("facebook:onSuccess:", "success")
                     } else {
                         loginFail()
@@ -208,8 +196,9 @@ class LoginFragment : BasicFragment() {
                 }
     }
 
-    private fun loginSuccess(loginType : Int){
+    private fun loginSuccess(loginType : Int , mail : String){
         UserPreference(context!!).loginType = loginType
+        UserPreference(context!!).mail= mail
         setLoadDialog()
         fragmentChangeListener.switchFragment(PageName.BACK_TO_MAIN)
     }

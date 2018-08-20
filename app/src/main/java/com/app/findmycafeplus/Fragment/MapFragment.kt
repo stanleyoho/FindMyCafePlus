@@ -26,9 +26,11 @@ import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MapStyleOptions
+import com.google.android.gms.maps.model.Marker
 import com.google.android.gms.maps.model.MarkerOptions
 import io.realm.RealmResults
 import kotlinx.android.synthetic.main.fragment_map.*
+import kotlinx.android.synthetic.main.layout_cafe_detail.view.*
 
 
 class MapFragment : BasicFragment() , OnMapReadyCallback{
@@ -79,10 +81,6 @@ class MapFragment : BasicFragment() , OnMapReadyCallback{
         when(viewId){
             R.id.btnSearch ->{
                 FilterDialog(context!!,filterCallBack).show()
-                LevelPreference(context!!).exprence ++
-                val intent = Intent()
-                intent.action = Constants.LEVEL_BROADCAST_INTENT
-                LocalBroadcastManager.getInstance(context!!).sendBroadcast(intent)
             }
         }
     }
@@ -110,6 +108,9 @@ class MapFragment : BasicFragment() , OnMapReadyCallback{
         //set custom info window
         mMap.setInfoWindowAdapter(CafeInfoAdapter(context))
 
+        //set mark click listener
+        mMap.setOnMarkerClickListener (onMarkClickListener)
+
         //set search listener
         btnSearch.setOnClickListener (clickListener)
     }
@@ -121,6 +122,7 @@ class MapFragment : BasicFragment() , OnMapReadyCallback{
         override fun filterResult(result: RealmResults<RMCafeInformation>) {
             mMap.clear()
             addMarkOnMap(result)
+            addMemberExperience()
         }
     }
 
@@ -139,6 +141,15 @@ class MapFragment : BasicFragment() , OnMapReadyCallback{
         }
     }
 
+    private var onMarkClickListener = object : GoogleMap.OnMarkerClickListener{
+        override fun onMarkerClick(p0: Marker?): Boolean {
+            if(p0 != null){
+                val cafeInfo = p0.tag as RMCafeInformation
+                setCafeDetailView(cafeInfo)
+            }
+            return false
+        }
+    }
     /**
      * 初始化手機 location
      * */
@@ -155,5 +166,27 @@ class MapFragment : BasicFragment() , OnMapReadyCallback{
                 }
             }
         }
+    }
+
+    /**
+     * 設定咖啡詳細資料的畫面
+     * */
+    private fun setCafeDetailView(cafeInfo : RMCafeInformation){
+        layoutCafeDetail.textCafeDetailNameContent.text = cafeInfo.name
+        layoutCafeDetail.textCafeDetailAddressContent.text = cafeInfo.address
+        layoutCafeDetail.textCafeDetailOpenTimeContent.text = cafeInfo.open_time
+        layoutCafeDetail.ivCafeDetailNavigate.setOnClickListener { MapUtils.getGoogleMapIntent(context!!,cafeInfo) }
+    }
+
+    /**
+     * 增加使用者者經驗值
+     * */
+    private fun addMemberExperience(){
+        //add preference experience
+        LevelPreference(context!!).experience ++
+        //notify navigationView
+        val intent = Intent()
+        intent.action = Constants.LEVEL_BROADCAST_INTENT
+        LocalBroadcastManager.getInstance(context!!).sendBroadcast(intent)
     }
 }

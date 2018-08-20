@@ -27,7 +27,7 @@ class LevelView : LinearLayout{
         pbValue = view.pbLevelViewProgress
 
         val level = LevelPreference(context).level
-        val currentXp = LevelPreference(context).exprence
+        val currentXp = LevelPreference(context).experience
         updateCurrentLevel(context,level,currentXp)
     }
 
@@ -57,6 +57,6 @@ class LevelView : LinearLayout{
         setXp(context,currentXp,Constants.LEVEL_ARRAY[currentLevel])
         setProgress(currentXp)
         LevelPreference(context).level = currentLevel
-        LevelPreference(context).exprence = currentXp
+        LevelPreference(context).experience = currentXp
     }
 }

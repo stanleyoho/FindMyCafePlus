@@ -18,9 +18,22 @@ class UserPreference {
         edit.apply()
     }
 
+    var mail : String
+    get() {
+        return preference.getString(Constants.USER_PREFERENCE_EMAIL,"")
+    }
+    set(value) {
+        edit.putString(Constants.USER_PREFERENCE_EMAIL,value)
+        edit.apply()
+    }
+
     constructor(context : Context){
         preference = context.getSharedPreferences(Constants.USER_PREFERENCE, Context.MODE_PRIVATE)
         edit = preference.edit()
     }
 
+    fun rest(){
+        loginType = -1
+        mail = ""
+    }
 }
