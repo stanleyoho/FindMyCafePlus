@@ -148,7 +148,10 @@ class LoginFragment : BasicFragment() {
 
 
     private fun authWithGoogle(account: GoogleSignInAccount?) {
-        if (account == null) return
+        if (account == null){
+            setLoadDialog()
+            return
+        }
         val credential = GoogleAuthProvider.getCredential(account?.idToken, null)
         auth.signInWithCredential(credential).addOnCompleteListener { p0 ->
             if (p0.isSuccessful) {
@@ -168,10 +171,12 @@ class LoginFragment : BasicFragment() {
         view.btnLoginFacebook.registerCallback(facebookCallBackManager, object : FacebookCallback<LoginResult> {
             override fun onCancel() {
                 LogUtils.e("facebook:onCancel:", "onCancel")
+                setLoadDialog()
             }
 
             override fun onError(error: FacebookException?) {
                 LogUtils.e("facebook:onError:", error.toString())
+                setLoadDialog()
             }
 
             override fun onSuccess(result: LoginResult?) {

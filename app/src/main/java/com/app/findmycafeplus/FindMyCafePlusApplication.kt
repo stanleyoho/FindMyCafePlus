@@ -18,5 +18,6 @@ class FindMyCafePlusApplication : Application(){
         RealManager.initConfiguration()
 
         DataManager.initData(this)
+
     }
 }
