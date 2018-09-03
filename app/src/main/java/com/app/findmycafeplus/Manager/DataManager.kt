@@ -8,6 +8,7 @@ import com.google.gson.Gson
 import org.json.JSONArray
 import java.io.IOException
 import java.io.InputStream
+import kotlin.math.log
 
 object DataManager {
 
@@ -24,6 +25,7 @@ object DataManager {
 
     fun initData(context: Context) {
 
+        LogUtils.e("init","init start")
         try {
             val inputStream: InputStream = context.assets.open("mrt_final.json")
             val buffer = ByteArray(inputStream.available())
@@ -65,6 +67,7 @@ object DataManager {
             e.printStackTrace()
             LogUtils.e("DataManager", "initData Fail ")
         }
+        LogUtils.e("init","init end")
     }
 
 

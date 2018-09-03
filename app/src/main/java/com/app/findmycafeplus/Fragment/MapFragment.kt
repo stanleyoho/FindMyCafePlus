@@ -5,10 +5,13 @@ import android.content.Context.LOCATION_SERVICE
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.location.Location
+import android.location.LocationListener
 import android.location.LocationManager
 import android.os.Bundle
 import android.support.v4.content.ContextCompat
 import android.support.v4.content.LocalBroadcastManager
+import android.support.v4.widget.SlidingPaneLayout
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -28,8 +31,10 @@ import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MapStyleOptions
 import com.google.android.gms.maps.model.Marker
 import com.google.android.gms.maps.model.MarkerOptions
+import com.sothree.slidinguppanel.SlidingUpPanelLayout
 import io.realm.RealmResults
 import kotlinx.android.synthetic.main.fragment_map.*
+import kotlinx.android.synthetic.main.fragment_map.view.*
 import kotlinx.android.synthetic.main.layout_cafe_detail.view.*
 
 
@@ -37,35 +42,39 @@ class MapFragment : BasicFragment() , OnMapReadyCallback{
 
     private lateinit var mMap: GoogleMap
     private lateinit var cafeList : RealmResults<RMCafeInformation>
-    private var location : Location? = null
+    private lateinit var mLocationManager : LocationManager
+    private var mLocation : Location? = null
+    private val TAG = "MapFragment"
+    private lateinit var myView : View
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         cafeList = RMCafeInformation().getAll()
 
-        initCurrentLocation()
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
 
-        val view = inflater.inflate(R.layout.fragment_map,container,false)
+        myView = inflater.inflate(R.layout.fragment_map,container,false)
 
         val mapFragment : SupportMapFragment = childFragmentManager.findFragmentById(R.id.map) as SupportMapFragment
 
         mapFragment.getMapAsync(this)
 
-        return view
+        return myView
     }
 
     override fun onMapReady(googleMap: GoogleMap) {
 
         initMap(googleMap)
 
+        initCurrentLocation()
+
         //add mark
 //        addMarkOnMap(cafeList)
 
-        MapUtils.moveCameraTo(mMap,location,Constants.ZOOM_NORMAL)
+        MapUtils.moveCameraTo(mMap,mLocation,Constants.ZOOM_NORMAL)
     }
 
     /**
@@ -108,6 +117,14 @@ class MapFragment : BasicFragment() , OnMapReadyCallback{
         //set custom info window
         mMap.setInfoWindowAdapter(CafeInfoAdapter(context))
 
+        mMap.setOnInfoWindowClickListener {
+            if(myView.sliding_layout.panelState == SlidingUpPanelLayout.PanelState.COLLAPSED){
+                myView.sliding_layout.panelState = SlidingUpPanelLayout.PanelState.EXPANDED
+            }else{
+                myView.sliding_layout.panelState = SlidingUpPanelLayout.PanelState.COLLAPSED
+            }
+        }
+
         //set mark click listener
         mMap.setOnMarkerClickListener (onMarkClickListener)
 
@@ -141,28 +158,46 @@ class MapFragment : BasicFragment() , OnMapReadyCallback{
         }
     }
 
-    private var onMarkClickListener = object : GoogleMap.OnMarkerClickListener{
-        override fun onMarkerClick(p0: Marker?): Boolean {
-            if(p0 != null){
-                val cafeInfo = p0.tag as RMCafeInformation
-                setCafeDetailView(cafeInfo)
-            }
-            return false
+    private var onMarkClickListener = GoogleMap.OnMarkerClickListener { p0 ->
+        if(p0 != null){
+            val cafeInfo = p0.tag as RMCafeInformation
+            setCafeDetailView(cafeInfo)
         }
+        false
     }
     /**
      * 初始化手機 location
      * */
     private fun initCurrentLocation(){
-        val mLocationManager = context?.getSystemService(LOCATION_SERVICE) as LocationManager
+        mLocationManager = context?.getSystemService(LOCATION_SERVICE) as LocationManager
 
         if(ContextCompat.checkSelfPermission(context!!,Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED){
-            //get current location
+            mLocationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER,1L,1f,object : LocationListener{
+                override fun onLocationChanged(location: Location?) {
+                    Log.d(TAG,"onLocationChanged")
+                }
+
+                override fun onStatusChanged(provider: String?, status: Int, extras: Bundle?) {
+                    Log.d(TAG,"onStatusChanged")
+                }
+
+                override fun onProviderEnabled(provider: String?) {
+                    Log.d(TAG,"onProviderEnabled")
+                }
+
+                override fun onProviderDisabled(provider: String?) {
+                    Log.d(TAG,"onProviderDisabled")
+                }
+            })
+
+            mLocation = mLocationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER)
+
+        }else{
             if (mLocationManager.isProviderEnabled(LocationManager.GPS_PROVIDER) || mLocationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER)) {
                 if (mLocationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
-                    location = mLocationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER)  //使用GPS定位座標
+                    mLocation = mLocationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER)  //使用GPS定位座標
                 } else if (mLocationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER)) {
-                    location = mLocationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER) //使用GPS定位座標
+                    mLocation = mLocationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER) //使用GPS定位座標
                 }
             }
         }
