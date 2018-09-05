@@ -38,6 +38,15 @@ class IntroActivity : BasicActivity() {
 
     }
 
+
+    override fun initEvent() {
+
+    }
+
+    override fun initView() {
+
+    }
+
     private fun checkPermission() {
 
         val permissions = PermissionCheckUtils.Companion.Builder(this)

@@ -3,6 +3,9 @@
 
     <group android:checkableBehavior="single">
         <item
+            android:id="@+id/menuNewsUnSign"
+            android:title="News"/>
+        <item
             android:id="@+id/menuMapUnSign"
             android:title="Map"/>
         <item

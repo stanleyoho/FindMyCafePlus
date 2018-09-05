@@ -11,6 +11,8 @@ import android.view.View
 import android.widget.Toast
 import com.app.findmycafeplus.Constants.Constants
 import com.app.findmycafeplus.Fragment.MapFragment
+import com.app.findmycafeplus.Fragment.NewsFragment
+import com.app.findmycafeplus.Fragment.SettingFragment
 import com.app.findmycafeplus.Manager.AccountLoginManager
 import com.app.findmycafeplus.Preference.FilterPreference
 import com.app.findmycafeplus.Preference.LevelPreference
@@ -56,9 +58,17 @@ class MainActivity : BasicActivity() {
     /**
      * init view
      * */
-    private fun initView() {
-        val transaction = supportFragmentManager
-        transaction.beginTransaction().add(R.id.fragmentMain, MapFragment(), "").commit()
+    override fun initView() {
+        addFragment(R.id.fragmentMain, MapFragment(), "")
+    }
+
+    /**
+     * init event
+     * */
+    override fun initEvent() {
+        btnMenu.setOnClickListener(onclickListener)
+        btnDonate.setOnClickListener(onclickListener)
+        navMain.setNavigationItemSelectedListener(onNavItemSelectListener)
     }
 
     /**
@@ -97,15 +107,6 @@ class MainActivity : BasicActivity() {
     }
 
     /**
-     * init event
-     * */
-    private fun initEvent() {
-        btnMenu.setOnClickListener(onclickListener)
-        btnDonate.setOnClickListener(onclickListener)
-        navMain.setNavigationItemSelectedListener(onNavItemSelectListener)
-    }
-
-    /**
      * 開啟/關閉 navigationBar
      * */
     private fun setDrawerVisible() {
@@ -138,11 +139,13 @@ class MainActivity : BasicActivity() {
     private var onNavItemSelectListener = NavigationView.OnNavigationItemSelectedListener { item ->
         val viewId = item.itemId
         when (viewId) {
+            R.id.menuNewsSigned, R.id.menuNewsUnSign -> {
+                Toast.makeText(this, "Map", Toast.LENGTH_SHORT).show()
+                replaceAndAddToBackStack(R.id.fragmentMain,NewsFragment(),"")
+            }
             R.id.menuMapSigned, R.id.menuMapUnSign -> {
                 Toast.makeText(this, "Map", Toast.LENGTH_SHORT).show()
-            }
-            R.id.menuMember -> {
-                Toast.makeText(this, "Member", Toast.LENGTH_SHORT).show()
+                popBackStackImmediate()
             }
             R.id.menuLogin -> {
                 Toast.makeText(this, "Login", Toast.LENGTH_SHORT).show()
@@ -150,12 +153,13 @@ class MainActivity : BasicActivity() {
             }
             R.id.menuSettingSigned, R.id.menuSettingUnSign -> {
                 Toast.makeText(this, "Setting", Toast.LENGTH_SHORT).show()
+                replaceAndAddToBackStack(R.id.fragmentMain,SettingFragment(),"")
             }
-            R.id.menuLogout -> {
-                AccountLoginManager.logout(this@MainActivity)
-                Toast.makeText(this, "Logout", Toast.LENGTH_SHORT).show()
-                loginCheck()
-            }
+//            R.id.menuLogout -> {
+//                AccountLoginManager.logout(this@MainActivity)
+//                Toast.makeText(this, "Logout", Toast.LENGTH_SHORT).show()
+//                loginCheck()
+//            }
         }
         setDrawerVisible()
         false

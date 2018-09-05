@@ -12,18 +12,28 @@ import com.app.findmycafeplus.R
 
 class LoginActivity : BasicActivity() , FragmentChangeListener{
 
+
+
+
     private lateinit var loadDialog : LoadDialog
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_login)
-        loadDialog = LoadDialog(this)
-        addFragmentFirst(R.id.loginFragment, LoginFragment.newInstance(null),PageName.LOGIN.toString())
+        initView()
 
     }
 
-    override fun switchFragment(pageName: PageName) {
+    override fun initView() {
+        setContentView(R.layout.activity_login)
+        loadDialog = LoadDialog(this)
+        addFragment(R.id.loginFragment, LoginFragment.newInstance(null),PageName.LOGIN.toString())
+    }
 
+    override fun initEvent() {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
+    override fun switchFragment(pageName: PageName) {
         when(pageName){
             PageName.LOGIN ->{}
             PageName.REGISTER ->{

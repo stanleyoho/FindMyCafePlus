@@ -9,27 +9,25 @@ import android.support.v7.app.AppCompatActivity
 import android.R.attr.data
 import android.support.v4.app.FragmentActivity
 import android.util.Log
+import com.app.findmycafeplus.Fragment.MapFragment
 import com.app.findmycafeplus.Utils.LogUtils
+import kotlin.math.log
 
 
-open class BasicActivity : AppCompatActivity() {
+abstract class BasicActivity : AppCompatActivity() {
 
     private val fragmentManager : FragmentManager = supportFragmentManager
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-    }
+    abstract fun initView()
 
-    override fun onDestroy() {
-        super.onDestroy()
-    }
+    abstract fun initEvent()
 
     /**
      * 新增第一個Fragment
      * @param layout      畫面id
      * @param fragment  Fragment實體物件
      * */
-    fun addFragmentFirst(@IdRes layout : Int, fragment : Fragment, tag : String){
+    fun addFragment(@IdRes layout : Int, fragment : Fragment, tag : String){
         val transaction = fragmentManager.beginTransaction()
         transaction.add(layout,fragment,tag)
         transaction.commit()
@@ -44,9 +42,13 @@ open class BasicActivity : AppCompatActivity() {
 
     fun replaceAndAddToBackStack(@IdRes layout : Int , fragment : Fragment , tag : String){
         val transaction = fragmentManager.beginTransaction()
+        if(fragment !is MapFragment){
+            popBackStackImmediate()
+        }
         transaction.replace(layout,fragment,tag)
         transaction.addToBackStack(tag)
         transaction.commit()
+        Log.e("test","test")
     }
 
     /**
