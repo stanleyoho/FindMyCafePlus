@@ -10,7 +10,7 @@ import com.app.findmycafeplus.Interface.FragmentChangeListener
 import com.app.findmycafeplus.R
 
 
-class LoginActivity : BasicActivity() , FragmentChangeListener{
+class LoginActivity : BaseActivity() , FragmentChangeListener{
 
 
 

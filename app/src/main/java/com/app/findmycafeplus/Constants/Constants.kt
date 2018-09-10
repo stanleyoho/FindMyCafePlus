@@ -56,4 +56,7 @@ object Constants {
 
     /** Local Broadcast Manager Intent Filter */
     const val LEVEL_BROADCAST_INTENT = "LEVEL_BROADCAST_INTENT"
+
+    /** About us*/
+    const val ABOUT_URL = "https://www.facebook.com/Shirohooman"
 }

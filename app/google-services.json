@@ -15,11 +15,11 @@
       },
       "oauth_client": [
         {
-          "client_id": "150228236698-pshh62tkdkq4gmfkh5c8qgiv1beppdbc.apps.googleusercontent.com",
+          "client_id": "150228236698-pbj2sbbecu49dkq2f59evcfsttvsv7hm.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
             "package_name": "com.app.findmycafeplus",
-            "certificate_hash": "6ee6914388ad85e763725c95745bf96e02f38b58"
+            "certificate_hash": "0cab8bb7e6720215c67008c3686477f13ce74818"
           }
         },
         {

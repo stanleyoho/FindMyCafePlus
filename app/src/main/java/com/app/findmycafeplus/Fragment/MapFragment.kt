@@ -10,7 +10,6 @@ import android.location.LocationManager
 import android.os.Bundle
 import android.support.v4.content.ContextCompat
 import android.support.v4.content.LocalBroadcastManager
-import android.support.v4.widget.SlidingPaneLayout
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -29,7 +28,6 @@ import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MapStyleOptions
-import com.google.android.gms.maps.model.Marker
 import com.google.android.gms.maps.model.MarkerOptions
 import com.sothree.slidinguppanel.SlidingUpPanelLayout
 import io.realm.RealmResults
@@ -38,7 +36,7 @@ import kotlinx.android.synthetic.main.fragment_map.view.*
 import kotlinx.android.synthetic.main.layout_cafe_detail.view.*
 
 
-class MapFragment : BasicFragment() , OnMapReadyCallback{
+class MapFragment : BaseFragment() , OnMapReadyCallback{
 
     private lateinit var mMap: GoogleMap
     private lateinit var cafeList : RealmResults<RMCafeInformation>

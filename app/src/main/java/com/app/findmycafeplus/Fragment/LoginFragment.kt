@@ -1,7 +1,5 @@
 package com.app.findmycafeplus.Fragment
 
-import android.accounts.Account
-import android.accounts.AccountManager
 import android.content.Intent
 import android.os.Bundle
 import android.support.v4.app.Fragment
@@ -12,27 +10,23 @@ import android.view.View
 import android.view.ViewGroup
 import com.app.findmycafeplus.Constants.Constants
 import com.app.findmycafeplus.Constants.PageName
-import com.app.findmycafeplus.CustomView.LoadDialog
 import com.app.findmycafeplus.Manager.AccountLoginManager
-import com.app.findmycafeplus.Model.CurrentUserInfo
 import com.app.findmycafeplus.Preference.UserPreference
 import com.app.findmycafeplus.R
 import com.app.findmycafeplus.Utils.LogUtils
 import com.app.findmycafeplus.Utils.Utils
 import com.facebook.*
-import com.facebook.login.LoginManager
 import com.facebook.login.LoginResult
 import com.google.android.gms.auth.api.Auth
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.firebase.auth.FacebookAuthProvider
-import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.GoogleAuthProvider
 import kotlinx.android.synthetic.main.fragment_login.*
 import kotlinx.android.synthetic.main.fragment_login.view.*
 
-class LoginFragment : BasicFragment() {
+class LoginFragment : BaseFragment() {
 
     private val auth = AccountLoginManager.getAuthInstance()
 

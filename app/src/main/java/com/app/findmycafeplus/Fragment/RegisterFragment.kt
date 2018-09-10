@@ -11,14 +11,9 @@ import com.app.findmycafeplus.Constants.PageName
 import com.app.findmycafeplus.Manager.AccountLoginManager
 import com.app.findmycafeplus.Preference.UserPreference
 import com.app.findmycafeplus.R
-import com.google.android.gms.tasks.OnCompleteListener
-import com.google.android.gms.tasks.Task
-import com.google.firebase.auth.AuthResult
-import kotlinx.android.synthetic.main.fragment_login.*
-import kotlinx.android.synthetic.main.fragment_register.*
 import kotlinx.android.synthetic.main.fragment_register.view.*
 
-class RegisterFragment : BasicFragment() {
+class RegisterFragment : BaseFragment() {
 
     private lateinit var regFragmentView : View
 

@@ -4,6 +4,7 @@ import android.app.Application
 import android.os.Handler
 import com.app.findmycafeplus.Manager.DataManager
 import com.app.findmycafeplus.Manager.RealManager
+import com.app.findmycafeplus.Manager.RealtimeDatabaseManager
 import com.facebook.FacebookSdk
 import com.facebook.appevents.AppEventsLogger
 
@@ -17,7 +18,7 @@ class FindMyCafePlusApplication : Application(){
 
         RealManager.initRealm(this)
         RealManager.initConfiguration()
-
+        RealtimeDatabaseManager.init()
 
 //        DataManager.initData(this)
 

@@ -5,7 +5,7 @@ import android.content.Context
 import android.support.v4.app.Fragment
 import com.app.findmycafeplus.Interface.FragmentChangeListener
 
-open class BasicFragment : Fragment() {
+open class BaseFragment : Fragment() {
 
     lateinit var fragmentChangeListener : FragmentChangeListener
 

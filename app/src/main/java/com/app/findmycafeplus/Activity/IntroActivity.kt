@@ -19,16 +19,17 @@ import kotlinx.android.synthetic.main.activity_intro.*
 import org.json.JSONArray
 import org.json.JSONObject
 
-class IntroActivity : BasicActivity() {
+class IntroActivity : BaseActivity() {
 
     val API_TAIPEI = 1001
     val handler: Handler = Handler()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_intro)
 
-        LogUtils.e("size", DataManager.getMrtList().size.toString())
+        initView()
+        initEvent()
+
 
         //正式
         checkPermission()
@@ -44,7 +45,7 @@ class IntroActivity : BasicActivity() {
     }
 
     override fun initView() {
-
+        setContentView(R.layout.activity_intro)
     }
 
     private fun checkPermission() {

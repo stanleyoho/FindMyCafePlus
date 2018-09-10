@@ -2,7 +2,6 @@ package com.app.findmycafeplus.Activity
 
 import android.content.*
 import android.os.Bundle
-import android.preference.Preference
 import android.support.design.widget.NavigationView
 import android.support.v4.content.ContextCompat
 import android.support.v4.content.LocalBroadcastManager
@@ -10,9 +9,11 @@ import android.support.v4.view.GravityCompat
 import android.view.View
 import android.widget.Toast
 import com.app.findmycafeplus.Constants.Constants
+import com.app.findmycafeplus.Constants.PageName
 import com.app.findmycafeplus.Fragment.MapFragment
 import com.app.findmycafeplus.Fragment.NewsFragment
 import com.app.findmycafeplus.Fragment.SettingFragment
+import com.app.findmycafeplus.Interface.FragmentChangeListener
 import com.app.findmycafeplus.Manager.AccountLoginManager
 import com.app.findmycafeplus.Preference.FilterPreference
 import com.app.findmycafeplus.Preference.LevelPreference
@@ -21,7 +22,7 @@ import com.app.findmycafeplus.R
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.layout_nav_header.view.*
 
-class MainActivity : BasicActivity() {
+class MainActivity : BaseActivity() , FragmentChangeListener{
 
     private lateinit var navHeaderView: View
     private lateinit var levelPreference: LevelPreference
@@ -31,7 +32,6 @@ class MainActivity : BasicActivity() {
         setContentView(R.layout.activity_main)
 
         levelPreference = LevelPreference(this)
-
         initView()
         initNavigation()
         initEvent()
@@ -59,7 +59,7 @@ class MainActivity : BasicActivity() {
      * init view
      * */
     override fun initView() {
-        addFragment(R.id.fragmentMain, MapFragment(), "")
+        addFragment(R.id.fragmentMain, MapFragment(), PageName.MAP.toString())
     }
 
     /**
@@ -141,11 +141,11 @@ class MainActivity : BasicActivity() {
         when (viewId) {
             R.id.menuNewsSigned, R.id.menuNewsUnSign -> {
                 Toast.makeText(this, "Map", Toast.LENGTH_SHORT).show()
-                replaceAndAddToBackStack(R.id.fragmentMain,NewsFragment(),"")
+                replaceAndAddToBackStack(R.id.fragmentMain,NewsFragment(),PageName.NEWS.toString())
             }
             R.id.menuMapSigned, R.id.menuMapUnSign -> {
                 Toast.makeText(this, "Map", Toast.LENGTH_SHORT).show()
-                popBackStackImmediate()
+                replaceAndAddToBackStack(R.id.fragmentMain,NewsFragment(),PageName.MAP.toString())
             }
             R.id.menuLogin -> {
                 Toast.makeText(this, "Login", Toast.LENGTH_SHORT).show()
@@ -153,7 +153,7 @@ class MainActivity : BasicActivity() {
             }
             R.id.menuSettingSigned, R.id.menuSettingUnSign -> {
                 Toast.makeText(this, "Setting", Toast.LENGTH_SHORT).show()
-                replaceAndAddToBackStack(R.id.fragmentMain,SettingFragment(),"")
+                replaceAndAddToBackStack(R.id.fragmentMain,SettingFragment(),PageName.SETTING.toString())
             }
 //            R.id.menuLogout -> {
 //                AccountLoginManager.logout(this@MainActivity)
@@ -194,4 +194,18 @@ class MainActivity : BasicActivity() {
         }
     }
 
+    override fun switchFragment(pageName: PageName) {
+        when(pageName){
+            PageName.OPEN_WEB ->{
+                openWeb(Constants.ABOUT_URL)
+            }
+            PageName.LOG_OUT -> {
+                AccountLoginManager.logout(this)
+                Toast.makeText(this, "Logout", Toast.LENGTH_SHORT).show()
+                loginCheck()
+            }
+            else -> {
+            }
+        }
+    }
 }
