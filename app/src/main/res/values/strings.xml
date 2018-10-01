@@ -23,4 +23,6 @@
 
     <string name="level_view_level">Lv : %1$d</string>
     <string name="level_view_xp">%1$d / %2$d</string>
+
+    <string name="default_notification_channel_id">0</string>
 </resources>

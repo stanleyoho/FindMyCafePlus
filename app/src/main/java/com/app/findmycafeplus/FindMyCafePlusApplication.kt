@@ -7,6 +7,7 @@ import com.app.findmycafeplus.Manager.RealManager
 import com.app.findmycafeplus.Manager.RealtimeDatabaseManager
 import com.facebook.FacebookSdk
 import com.facebook.appevents.AppEventsLogger
+import com.google.firebase.iid.FirebaseInstanceId
 
 class FindMyCafePlusApplication : Application(){
 
@@ -15,6 +16,7 @@ class FindMyCafePlusApplication : Application(){
 
         FacebookSdk.sdkInitialize(this)
         AppEventsLogger.activateApp(this)
+        FirebaseInstanceId.getInstance().instanceId
 
         RealManager.initRealm(this)
         RealManager.initConfiguration()
